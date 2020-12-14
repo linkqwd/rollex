@@ -3,18 +3,18 @@ import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import babel from 'rollup-plugin-babel';
 import html from '@rollup/plugin-html';
-import scss from 'rollup-plugin-scss';
 import { terser } from 'rollup-plugin-terser';
 import serve from 'rollup-plugin-serve';
 import livereload from 'rollup-plugin-livereload';
+import nodePolyfills from 'rollup-plugin-node-polyfills';
 
 const isProd = process.env.NODE_ENV === 'production';
 const extensions = ['.js', '.ts', '.tsx'];
 
 export default {
-    input: 'src/index.tsx',
+    input: 'examples/index.tsx',
     output: {
-        file: 'public/index.js',
+        file: 'dist/index.js',
         format: 'iife',
     },
     plugins: [
@@ -25,8 +25,9 @@ export default {
             extensions,
         }),
         commonjs({
-            include: /node_modules/,
+            include: 'node_modules/**',
         }),
+        nodePolyfills(),
         babel({
             extensions,
             exclude: /node_modules/,
@@ -54,7 +55,7 @@ export default {
         }),
         html({
             fileName: 'index.html',
-            title: 'Rollup + TypeScript + React = ❤️',
+            title: 'ZK UI examples',
             template: ({title}) => {
                 return `
                     <!DOCTYPE html>
@@ -62,7 +63,10 @@ export default {
                     <head>
                       <meta charset="utf-8">
                       <title>${title}</title>
-                      <link rel="stylesheet" href="index.css">
+                      <link rel="shortcut icon" href="images/favicon.ico"/> 
+                        <!-- Prism.js code highlighting -->
+                        <link rel="stylesheet" href="prism/prism.css" data-noprefix />
+                        <script src="prism/prism.js"></script>
                     </head>
                     <body>
                       <div id="app"></div>
@@ -72,18 +76,15 @@ export default {
                 `;
             },
         }),
-        scss({
-            output: 'public/index.css',
-        }),
         (isProd && terser()),
         (!isProd && serve({
             host: 'localhost',
             port: 3000,
             open: true,
-            contentBase: ['public'],
+            contentBase: ['dist', 'static']
         })),
         (!isProd && livereload({
-            watch: 'public',
+            watch: 'dist',
         })),
     ],
 };

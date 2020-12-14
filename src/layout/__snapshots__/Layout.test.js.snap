@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test Layout component renders correctly 1`] = `
+<div
+  className="Layout__MainWrapper-sc-686egp-0 fPpZvL"
+>
+  <header
+    className="Layout__HeaderWrapper-sc-686egp-3 hoXhQk"
+  >
+    <div
+      className="Layout__FixedContainer-sc-686egp-4 eqeLmZ"
+    />
+  </header>
+  <div
+    className="Layout__Body-sc-686egp-1 hZRUbq"
+  />
+  <footer
+    className="Layout__Footer-sc-686egp-2 dmwGAt"
+  />
+</div>
+`;
