@@ -13,7 +13,8 @@ registerLocale('uk', uk);
 registerLocale('en', en);
 registerLocale('ru', ru);
 
-import './style.css';
+// TODO: CHECK WHAT IS THIS
+// import './style.css';
 
 import { Error } from '../error';
 import { Hint } from '../hint';

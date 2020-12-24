@@ -2,7 +2,6 @@ import replace from '@rollup/plugin-replace';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import babel from 'rollup-plugin-babel';
-import html from '@rollup/plugin-html';
 import { terser } from 'rollup-plugin-terser';
 import serve from 'rollup-plugin-serve';
 import livereload from 'rollup-plugin-livereload';
@@ -12,10 +11,12 @@ const isProd = process.env.NODE_ENV === 'production';
 const extensions = ['.js', '.ts', '.tsx'];
 
 export default {
-    input: 'examples/index.tsx',
+    input: 'src/index.js',
     output: {
         file: 'dist/index.js',
         format: 'iife',
+        name: 'zk-ui',
+        extend: true,
     },
     plugins: [
         replace({
@@ -52,29 +53,6 @@ export default {
                     useESModules: false,
                 }],
             ],
-        }),
-        html({
-            fileName: 'index.html',
-            title: 'ZK UI examples',
-            template: ({title}) => {
-                return `
-                    <!DOCTYPE html>
-                    <html lang="en">
-                    <head>
-                      <meta charset="utf-8">
-                      <title>${title}</title>
-                      <link rel="shortcut icon" href="images/favicon.ico"/> 
-                        <!-- Prism.js code highlighting -->
-                        <link rel="stylesheet" href="prism/prism.css" data-noprefix />
-                        <script src="prism/prism.js"></script>
-                    </head>
-                    <body>
-                      <div id="app"></div>
-                      <script src="index.js"></script>
-                    </body>
-                    </html>
-                `;
-            },
         }),
         (isProd && terser()),
         (!isProd && serve({
